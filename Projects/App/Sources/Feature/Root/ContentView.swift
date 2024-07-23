@@ -1,8 +1,14 @@
 import SwiftUI
+import Moya
+import SDS
 
 struct ContentView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text("w")
+                .font(.pretendard(.black, size: 50))
+                .foregroundStyle(Color.primary(.light))
+        }
     }
 }
 
