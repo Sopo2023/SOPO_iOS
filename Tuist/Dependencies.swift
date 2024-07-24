@@ -2,7 +2,7 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let dependencies = Dependencies(
-    carthage: [],
+    carthage: nil,
     swiftPackageManager: [
         .remote(
             url: "https://github.com/Moya/Moya",
@@ -12,7 +12,7 @@ let dependencies = Dependencies(
             requirement: .upToNextMinor(from: "5.0.0")),
         .remote(
             url: "https://github.com/Sopo2023/SOPO_Design_system_iOS",
-            requirement: .upToNextMajor(from: "0.2.0"))
+            requirement: .upToNextMajor(from: "0.2.46"))
     ],
     platforms: [.iOS]
 )
