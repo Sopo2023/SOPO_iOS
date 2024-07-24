@@ -13,7 +13,7 @@ struct STJCell: View {
                     }
                 }
                 else {
-                    Color.common(.w0)
+                    Color.common(.w100)
                         .overlay {
                             Image(sopo: .Logo)
                                 .resizable()
@@ -24,7 +24,7 @@ struct STJCell: View {
             }
             .frame(height: 186)
             .clipped()
-            .clipShape(RoundedRectangle(cornerRadius: 5))
+            .clipShape(RoundedRectangle(cornerRadius: 4))
             
             
             Text("Dev.POST: AI가 써주는 기술 블로그")
