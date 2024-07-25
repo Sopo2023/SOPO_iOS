@@ -2,8 +2,9 @@ import SwiftUI
 import Moya
 import SDS
 
-struct ContentView: View {
+struct RootView: View {
     @State var selection: SopoTabItem = .home
+    @StateObject var rootVM = RootViewModel()
     
     var body: some View {
         NavigationView {
@@ -21,6 +22,7 @@ struct ContentView: View {
                     Text("프로필")
                 }
             }
+            .hideBar(false)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Group {
@@ -38,16 +40,16 @@ struct ContentView: View {
                         }
                     }
                     .font(.pretendard(.bold, size: 25))
-                    .padding(.top, 30)
                 }
                 
             }
             .navigationBarBackButtonHidden()
+            .ignoresSafeArea(.keyboard, edges: .bottom)
+            
         }
-        
     }
 }
 
 #Preview {
-    ContentView()
+    RootView()
 }
