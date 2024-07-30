@@ -6,45 +6,57 @@ struct RootView: View {
     @State var selection: SopoTabItem = .home
     @StateObject var rootVM = RootViewModel()
     
+    @State var isLogin: Bool = false
+    
     var body: some View {
         NavigationView {
-            SopoTabView(selection: $selection) {
-                switch selection {
-                case .home:
-                    Text("홈")
-                case .note:
-                    STJView()
-                case .archive:
-                    Text("아카이브")
-                case .award:
-                    Text("대회")
-                case .profile:
-                    Text("프로필")
-                }
-            }
-            .hideBar(false)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Group {
+            Group {
+                if isLogin {
+                    
+                    SopoTabView(selection: $selection) {
+                        
                         switch selection {
                         case .home:
                             Text("홈")
                         case .note:
-                            Text("선배가 후배에게")
+                            STJView()
                         case .archive:
-                            Text("포트폴리오")
+                            PortfolioView()
                         case .award:
-                            Text("대회")
+                            CompetitionView()
                         case .profile:
-                            Text("내 프로필")
+                            ProfileView()
                         }
+                        
                     }
-                    .font(.pretendard(.bold, size: 25))
+                    .hideBar(false)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Group {
+                                switch selection {
+                                case .home:
+                                    Text("홈")
+                                case .note:
+                                    Text("선배가 후배에게")
+                                case .archive:
+                                    Text("포트폴리오")
+                                case .award:
+                                    Text("대회")
+                                case .profile:
+                                    Text("내 프로필")
+                                }
+                            }
+                            .font(.pretendard(.bold, size: 25))
+                        }
+                        
+                    }
+                    .ignoresSafeArea(.keyboard, edges: .bottom)
                 }
-                
+                else {
+                    SigninView()
+                }
             }
             .navigationBarBackButtonHidden()
-            .ignoresSafeArea(.keyboard, edges: .bottom)
             
         }
     }

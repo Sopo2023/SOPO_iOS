@@ -34,7 +34,7 @@ struct FirstSignupView: View {
                     
                 } label: {
                     Text("이메일 인증번호 전송하기")
-                        .font(.pretendard(.semiBold, size: 14))
+                        .font(.pretendard(.semibold, size: 14))
                         .foregroundStyle(Color.primary(.strong))
                 }
                 
@@ -62,7 +62,7 @@ struct FirstSignupView: View {
                         .foregroundStyle(Color.primary(.light))
                 }
             }
-            .font(.pretendard(.semiBold, size: 14))
+            .font(.pretendard(.semibold, size: 14))
             
         }
         .padding(.horizontal, 36)
@@ -70,5 +70,14 @@ struct FirstSignupView: View {
 }
 
 #Preview {
-    FirstSignupView()
+    NavigationView {
+        
+        FirstSignupView()
+        
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Text("회원가입")
+                }
+            }
+    }
 }

@@ -1,18 +1,7 @@
 import SwiftUI
 import SDS
 
-private extension View {
-    @ViewBuilder
-    func scrollDismiss() -> some View {
-        if #available(iOS 16, *) {
-            self
-                .scrollDismissesKeyboard(.immediately)
-        }
-    }
-}
-
-struct STJView: View {
-    
+struct PortfolioView: View {
     var body: some View {
         VStack(spacing: 22) {
             SopoSearchField(text: .constant(""), prompt: "검색어를 입력해주세요.")
@@ -29,23 +18,23 @@ struct STJView: View {
             
             ScrollView {
                 VStack(spacing: 20) {
+                    PortfolioCell()
                     
-                    STJCell()
                     
                     SopoDevider()
                     
                     
                     ForEach(0..<4) { _ in
-                        STJCutCell()
+                        PortfolioCutCell()
                         
                         SopoDevider()
                     }
                 }
-                .padding(.vertical, 12)
                 .padding(.horizontal, 28)
+                .padding(.vertical, 12)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                
             }
-            .scrollDismiss()
             
             
         }
@@ -54,7 +43,5 @@ struct STJView: View {
 }
 
 #Preview {
-    NavigationView {
-        STJView()
-    }
+    PortfolioView()
 }

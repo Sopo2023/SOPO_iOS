@@ -54,7 +54,7 @@ struct SecondSignupView: View {
                         .foregroundStyle(Color.primary(.light))
                 }
             }
-            .font(.pretendard(.semiBold, size: 14))
+            .font(.pretendard(.semibold, size: 14))
             
         }
         .padding(.horizontal, 36)

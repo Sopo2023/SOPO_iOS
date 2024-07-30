@@ -2,7 +2,7 @@ import SwiftUI
 import SDS
 
 struct SigninView: View {
-    @State var id: String = ""
+    @StateObject var signinVM = SigninViewModel()
     
     var body: some View {
         VStack(alignment: .center, spacing: 12) {
@@ -17,15 +17,15 @@ struct SigninView: View {
             .padding(.vertical, 16)
             
             
-            SopoTextField(text: $id, prompt: "아이디를 입력해주세요")
+            SopoTextField(text: $signinVM.request.memberId, prompt: "아이디를 입력해주세요")
             
-            SopoTextField(text: $id, prompt: "비밀번호를 입력해주세요", isSecure: true)
+            SopoTextField(text: $signinVM.request.memberPassword, prompt: "비밀번호를 입력해주세요", isSecure: true)
             
             
             Spacer()
             
             SopoBottomButton {
-                print("s")
+                signinVM.signin()
             } text: {
                 Text("로그인")
                     .font(.body(.bold))
@@ -36,14 +36,15 @@ struct SigninView: View {
                 Text("계정이 없다면?")
                     .foregroundStyle(Color.label(.alternative))
                 
-                Button {
-                    
+                NavigationLink {
+                    FirstSignupView()
                 } label: {
                     Text("회원가입")
                         .foregroundStyle(Color.primary(.light))
                 }
             }
-            .font(.pretendard(.semiBold, size: 14))
+            .font(.pretendard(.semibold, size: 14))
+            .padding(.bottom, 28)
             
         }
         .padding(.horizontal, 36)
