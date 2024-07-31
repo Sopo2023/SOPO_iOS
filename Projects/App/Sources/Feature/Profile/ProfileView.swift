@@ -2,8 +2,12 @@ import SwiftUI
 import SDS
 
 struct ProfileView: View {
+    
+    @EnvironmentObject var rootVM: RootViewModel
+    
+    
     var body: some View {
-        VStack( ) {
+        VStack {
             HStack(spacing: 16) {
                 Circle()
                     .frame(width: 69, height: 69)
@@ -53,6 +57,14 @@ struct ProfileView: View {
             .padding(.horizontal, 24)
             
             Spacer()
+            
+            Button {
+                KeyChain.delete()
+                rootVM.objectWillChange.send()
+            } label: {
+                
+                Text("로그아웃")
+            }
             
         }
         .frame(maxWidth: .infinity)

@@ -2,10 +2,16 @@ import SwiftUI
 import SDS
 
 struct SecondSignupView: View {
-    @State var id: String = ""
+    @EnvironmentObject var signupVM: SignupViewModel
+
+    @EnvironmentObject var rootVM: RootViewModel
     
     var body: some View {
         VStack(alignment: .center, spacing: 12) {
+            
+            
+            Spacer()
+                .frame(maxHeight: 16)
             
             HStack {
                 VStack(alignment: .leading, spacing: 24) {
@@ -24,11 +30,11 @@ struct SecondSignupView: View {
             
             
             VStack(spacing: 22) {
-                SopoTextField(text: $id, prompt: "아이디를 입력해주세요")
+                SopoTextField(text: $signupVM.request.memberId, prompt: "아이디를 입력해주세요")
                 
-                SopoTextField(text: $id, prompt: "비밀번호를 입력해주세요", isSecure: true)
+                SopoTextField(text: $signupVM.request.memberPassword, prompt: "비밀번호를 입력해주세요", isSecure: true)
                 
-                SopoTextField(text: $id, prompt: "비밀번호를 재 입력해주세요", isSecure: true)
+                SopoTextField(text: $signupVM.request.memberPasswordConfirm, prompt: "비밀번호를 재 입력해주세요", isSecure: true)
 
             }
             
@@ -48,16 +54,35 @@ struct SecondSignupView: View {
                     .foregroundStyle(Color.label(.alternative))
                 
                 Button {
-                    
+                    rootVM.signTab = .signin
                 } label: {
                     Text("로그인")
                         .foregroundStyle(Color.primary(.light))
                 }
             }
             .font(.pretendard(.semibold, size: 14))
-            
+            .padding(.bottom, 28)
+
         }
         .padding(.horizontal, 36)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                
+                HStack(spacing: 14) {
+                    Button {
+                        rootVM.signTab = .firstSignup
+                    } label: {
+                        SopoIcon.arrowLeft.image
+                    }
+                    
+                    Text("회원가입")
+                        .font(.pretendard(.semibold, size: 16))
+                    
+                }
+                .foregroundStyle(Color.common(.w0))
+                .padding(.leading, 12)
+            }
+        }
     }
 }
 

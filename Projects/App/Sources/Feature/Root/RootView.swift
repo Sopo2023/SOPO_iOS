@@ -3,19 +3,17 @@ import Moya
 import SDS
 
 struct RootView: View {
-    @State var selection: SopoTabItem = .home
     @StateObject var rootVM = RootViewModel()
-    
-    @State var isLogin: Bool = false
+    @StateObject var signupVM = SignupViewModel()
     
     var body: some View {
         NavigationView {
             Group {
-                if isLogin {
+                if rootVM.isSigned {
                     
-                    SopoTabView(selection: $selection) {
+                    SopoTabView(selection: $rootVM.tabSelection) {
                         
-                        switch selection {
+                        switch rootVM.tabSelection {
                         case .home:
                             Text("홈")
                         case .note:
@@ -33,7 +31,7 @@ struct RootView: View {
                     .toolbar {
                         ToolbarItem(placement: .topBarLeading) {
                             Group {
-                                switch selection {
+                                switch rootVM.tabSelection {
                                 case .home:
                                     Text("홈")
                                 case .note:
@@ -53,9 +51,32 @@ struct RootView: View {
                     .ignoresSafeArea(.keyboard, edges: .bottom)
                 }
                 else {
-                    SigninView()
+                    Group {
+                        switch rootVM.signTab {
+                            
+                        case .onboard:
+                            OnboardingView()
+                            
+                            
+                        case .signin:
+                            SigninView()
+                                .transition(.slide)
+                            
+                        case .firstSignup:
+                            FirstSignupView()
+                                .environmentObject(signupVM)
+                        
+                        case .secondSignup:
+                            SecondSignupView()
+                                .environmentObject(signupVM)
+                        }
+                        
+                    }
+                    
                 }
+                
             }
+            .environmentObject(rootVM)
             .navigationBarBackButtonHidden()
             
         }

@@ -1,8 +1,20 @@
 import SwiftUI
+import SDS
 
 class RootViewModel: ObservableObject {
-    @Published var destination: (any View)? = nil
+    
+    var isSigned: Bool {
+        
+        return KeyChain.read() != nil
+    }
+    
+    
+    
+    @Published var tabSelection: SopoTabItem = .home
+    
+    @Published var signTab: SignType = .onboard
   
+    
     
     
 }

@@ -1,4 +1,5 @@
 import SwiftUI
+import Alamofire
 import Moya
 
 class SigninViewModel: ObservableObject {
@@ -6,14 +7,17 @@ class SigninViewModel: ObservableObject {
     
     let provider = MoyaProvider<AuthService>()
     
-    func signin() {
+    func signin( onCompleted: (() -> Void)? ) {
         provider.request(.signin(request)) { response in
             switch response {
             case .success(let result):
-                
-                
-                print(try? result.mapJSON())
-                
+                if let decodedData = try? JSONDecoder().decode(BaseResponse<SigninResponse>.self, from: result.data) {
+                    KeyChain.create(token: decodedData.data)
+                    
+                    if let onCompleted = onCompleted {
+                        onCompleted()
+                    }
+                }
                 
             case .failure(let error):
                 print(error.localizedDescription)
