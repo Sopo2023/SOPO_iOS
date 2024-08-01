@@ -1,15 +1,7 @@
 import SwiftUI
 import SDS
 
-private extension View {
-    @ViewBuilder
-    func scrollDismiss() -> some View {
-        if #available(iOS 16, *) {
-            self
-                .scrollDismissesKeyboard(.immediately)
-        }
-    }
-}
+
 
 struct STJView: View {
     

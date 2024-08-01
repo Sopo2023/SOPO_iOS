@@ -3,7 +3,7 @@ import Moya
 import SDS
 
 struct RootView: View {
-    @StateObject var rootVM = RootViewModel()
+    @StateObject var rootVM = RootViewModel.shared
     @StateObject var signupVM = SignupViewModel()
     
     var body: some View {
@@ -53,10 +53,8 @@ struct RootView: View {
                 else {
                     Group {
                         switch rootVM.signTab {
-                            
                         case .onboard:
                             OnboardingView()
-                            
                             
                         case .signin:
                             SigninView()

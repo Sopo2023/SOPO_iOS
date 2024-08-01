@@ -59,12 +59,16 @@ struct ProfileView: View {
             Spacer()
             
             Button {
-                KeyChain.delete()
-                rootVM.objectWillChange.send()
+                if KeyChain.delete() {
+                    rootVM.objectWillChange.send()
+                }
+                
             } label: {
                 
                 Text("로그아웃")
             }
+            
+            Spacer()
             
         }
         .frame(maxWidth: .infinity)
