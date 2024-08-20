@@ -2,6 +2,9 @@ import SwiftUI
 import SDS
 
 struct STJCell: View {
+    
+    let model: STJResponse
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Group {
@@ -27,19 +30,19 @@ struct STJCell: View {
             .clipShape(RoundedRectangle(cornerRadius: 4))
             
             
-            Text("Dev.POST: AI가 써주는 기술 블로그")
+            Text(model.boardTitle)
                 .font(.headline2(.bold))
             
             VStack(alignment: .leading, spacing: 8) {
                 HStack(spacing: 16) {
                     Text("2024.08.01")
                     
-                    Text("3개의 좋아요 · 4개의 댓글")
+                    Text("\(model.boardLikeCount)개의 좋아요 · 4개의 댓글")
                 }
                 .font(.caption(.medium))
                 
                 HStack(spacing: 0) {
-                    Text("by 노영재")
+                    Text("by \(model.memberName)")
                         .font(.label(.bold))
                     
                     Spacer()
@@ -54,8 +57,4 @@ struct STJCell: View {
 
         }
     }
-}
-
-#Preview {
-    STJCell()
 }

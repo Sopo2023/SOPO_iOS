@@ -17,22 +17,23 @@ final class SopoInterceptor: RequestInterceptor {
         
         var urlRequest = urlRequest
         
-        urlRequest.setValue(keychain.accessToken, forHTTPHeaderField: "accessToken")
-        urlRequest.setValue(keychain.refreshToken, forHTTPHeaderField: "refreshToken")
+        urlRequest.setValue(keychain.accessToken, forHTTPHeaderField: "Authorization")
         
         completion(.success(urlRequest))
     }
     
+    
     func retry(_ request: Request, for session: Session, dueTo error: any Error, completion: @escaping (RetryResult) -> Void) {
         let provider = MoyaProvider<RefreshService>()
         
-        guard let response = request.task?.response as? HTTPURLResponse
+        guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401
         else {
+            
             completion(.doNotRetryWithError(error))
             return
         }
         
-        guard let refreshToken = response.value(forHTTPHeaderField: "refreshToken")
+        guard let keychain = KeyChain.read()
         else {
             completion(.doNotRetry)
             return
@@ -40,12 +41,30 @@ final class SopoInterceptor: RequestInterceptor {
         
         let rootVM = RootViewModel.shared
         
-        provider.request(.refresh(token: refreshToken)) { result in
+        
+        
+        provider.request(.refresh(token: keychain.refreshToken)) { result in
             switch result {
             case .success(let response):
                 if let decodedData = try? JSONDecoder().decode(BaseResponse<RefreshResponse>.self, from: response.data) {
-                    if KeyChain.update(token: .init(accessToken: decodedData.data.accessToken, refreshToken: refreshToken)) {
+                    
+                    guard let data = decodedData.data else {
+                        return
+                    }
+                    
+                    if KeyChain.update(token: .init(accessToken: data.accessToken, refreshToken: keychain.refreshToken)) {
                         rootVM.objectWillChange.send()
+                        completion(.retry)
+                    }
+                    
+                    
+                    else {
+                        if KeyChain.delete() {
+                            rootVM.objectWillChange.send()
+                            completion(.doNotRetry)
+                        }
+                        
+
                     }
                 }
             case .failure(_):

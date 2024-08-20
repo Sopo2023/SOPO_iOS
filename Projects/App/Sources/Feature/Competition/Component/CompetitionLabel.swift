@@ -1,8 +1,6 @@
 import SwiftUI
 import SDS
 
-
-
 struct CompetitionLabel: View {
     public enum LabelType {
         case subscribed, closed, headcount

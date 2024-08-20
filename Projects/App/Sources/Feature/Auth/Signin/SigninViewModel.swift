@@ -7,20 +7,39 @@ class SigninViewModel: ObservableObject {
     
     let provider = MoyaProvider<AuthService>()
     
-    func signin( onCompleted: (() -> Void)? ) {
+    func signin( onCompleted: @escaping () -> Void, onError: @escaping () -> Void ) {
+        
+        
         provider.request(.signin(request)) { response in
             switch response {
             case .success(let result):
-                if let decodedData = try? JSONDecoder().decode(BaseResponse<SigninResponse>.self, from: result.data) {
-                    KeyChain.create(token: decodedData.data)
+                guard let decodedData = try? JSONDecoder().decode(BaseResponse<SigninResponse>.self, from: result.data) else {
+                    onError()
+                    return
+                }
+                
+                
+                
+                if decodedData.status == StatusCode.OK.rawValue {
                     
-                    if let onCompleted = onCompleted {
-                        onCompleted()
+                    guard let data = decodedData.data else {
+                        return
                     }
+                    
+                    guard KeyChain.create(token: data) else {
+                        return
+                    }
+                        
+                    onCompleted()
+                }
+                
+                else {
+                    onError()
                 }
                 
             case .failure(let error):
                 print(error.localizedDescription)
+                onError()
             }
         }
     }

@@ -16,6 +16,7 @@ struct SigninView: View {
                     .font(.pretendard(.bold, size: 26))
                     .foregroundStyle(Color.common(.w0))
                 
+                
                 Spacer()
             }
             .padding(.vertical, 16)
@@ -30,10 +31,19 @@ struct SigninView: View {
             
             SopoBottomButton {
                 signinVM.signin {
+                    rootVM.path.removeAll()
+                    rootVM.tabSelection = .home
                     rootVM.objectWillChange.send()
-                    rootVM.signTab = .onboard
+                } onError: {
+                    rootVM.openAlert {
+                        .init(
+                            title: Text("알림"),
+                            message: Text("존재하지 않는 회원입니다"),
+                            dismissButton: .cancel(Text("확인"))
+                        )
+                        
+                    }
                 }
-                
             } text: {
                 Text("로그인")
                     .font(.body(.bold))
@@ -45,7 +55,7 @@ struct SigninView: View {
                     .foregroundStyle(Color.label(.alternative))
                 
                 Button {
-                    rootVM.signTab = .firstSignup
+                    rootVM.path.replace(rootVM.path, with: [.firstsignup])
                 } label: {
                     Text("회원가입")
                         .foregroundStyle(Color.primary(.light))
@@ -61,9 +71,7 @@ struct SigninView: View {
                 
                 HStack(spacing: 14) {
                     Button {
-                        rootVM.signTab = .onboard
-                        
-                        
+                        rootVM.path.removeAll()
                     } label: {
                         SopoIcon.arrowLeft.image
                     }
@@ -76,6 +84,8 @@ struct SigninView: View {
                 .padding(.leading, 12)
             }
         }
+        .navigationBarBackButtonHidden()
+
     }
 }
 

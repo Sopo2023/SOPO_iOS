@@ -7,7 +7,7 @@ public extension Project {
         product: Product,
         organizationName: String = "kr.hs.dgsw",
         packages: [Package] = [],
-        deploymentTarget: DeploymentTarget? = .iOS(targetVersion: "15.0", devices: [.iphone]),
+        deploymentTarget: DeploymentTarget? = .iOS(targetVersion: "16.0", devices: [.iphone]),
         dependencies: [TargetDependency] = [],
         sources: SourceFilesList = ["Sources/**"],
         resources: ResourceFileElements? = nil,
@@ -54,6 +54,7 @@ extension Scheme {
             shared: true,
             buildAction: .buildAction(targets: ["\(name)"]),
             runAction: .runAction(configuration: target),
+    
             archiveAction: .archiveAction(configuration: target),
             profileAction: .profileAction(configuration: target),
             analyzeAction: .analyzeAction(configuration: target)

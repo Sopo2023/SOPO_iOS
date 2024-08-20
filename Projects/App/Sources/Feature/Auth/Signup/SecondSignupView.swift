@@ -41,20 +41,43 @@ struct SecondSignupView: View {
             
             Spacer()
             
-            SopoBottomButton {
-                print("s")
-            } text: {
+            SopoBottomButton (action: {
+                signupVM.signup {
+                    rootVM.openAlert {
+                        .init(
+                            title: Text("알림"),
+                            message: Text("회원가입이 완료되었습니다"),
+                            dismissButton: .cancel(Text("확인")) {
+                                
+                                signupVM.initRequest()
+                                rootVM.path.removeAll()
+                            }
+                        )
+                    }
+                } onError: {
+                    rootVM.openAlert {
+                        .init(
+                            title: Text("알림"),
+                            message: Text(signupVM.errorMessage),
+                            dismissButton: .cancel(Text("확인"))
+                              
+                        )
+                    }
+                }
+            }, text: {
                 Text("회원가입")
                     .font(.body(.bold))
                     .foregroundColor(.common(.w100))
-            }
+            }, background: signupVM.secondCompleted ? .primary(.normal) : .label(.disable))
+            .disabled(!signupVM.secondCompleted)
             
             HStack(spacing: 4) {
                 Text("계정이 있다면?")
                     .foregroundStyle(Color.label(.alternative))
                 
                 Button {
-                    rootVM.signTab = .signin
+                    signupVM.initRequest()
+                    rootVM.path.replace(rootVM.path, with: [.signin])
                 } label: {
                     Text("로그인")
                         .foregroundStyle(Color.primary(.light))
@@ -70,7 +93,7 @@ struct SecondSignupView: View {
                 
                 HStack(spacing: 14) {
                     Button {
-                        rootVM.signTab = .firstSignup
+                        rootVM.path.removeLast()
                     } label: {
                         SopoIcon.arrowLeft.image
                     }
@@ -83,9 +106,12 @@ struct SecondSignupView: View {
                 .padding(.leading, 12)
             }
         }
+        .navigationBarBackButtonHidden()
     }
 }
 
 #Preview {
     SecondSignupView()
+        .environmentObject(SignupViewModel())
+        .environmentObject(RootViewModel())
 }

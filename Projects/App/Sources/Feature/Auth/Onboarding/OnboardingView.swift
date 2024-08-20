@@ -4,6 +4,8 @@ import SDS
 struct OnboardingView: View {
     @EnvironmentObject var rootVM: RootViewModel
     
+    @State var toggle: Bool = false
+    
     var body: some View {
         VStack(spacing: 0) {
             
@@ -14,13 +16,12 @@ struct OnboardingView: View {
                 .scaledToFit()
                 .frame(maxWidth: 228)
             
+            
             Spacer()
             
             VStack(spacing: 28) {
                 SopoBottomButton {
-                    withAnimation {
-                        rootVM.signTab = .signin
-                    }
+                    rootVM.path.append(.signin)
                 } text: {
                     Text("로그인")
                         .font(.body(.bold))
@@ -28,7 +29,7 @@ struct OnboardingView: View {
                 }
                 
                 SopoBottomButton(action: {
-                    rootVM.signTab = .firstSignup
+                    rootVM.path.append(.firstsignup)
                 }, text:  {
                     Text("회원가입")
                         .font(.body(.bold))

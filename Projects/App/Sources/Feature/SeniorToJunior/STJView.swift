@@ -5,6 +5,8 @@ import SDS
 
 struct STJView: View {
     
+    @EnvironmentObject var stjVM: STJViewModel
+    
     var body: some View {
         VStack(spacing: 22) {
             SopoSearchField(text: .constant(""), prompt: "검색어를 입력해주세요.")
@@ -22,16 +24,17 @@ struct STJView: View {
             ScrollView {
                 VStack(spacing: 20) {
                     
-                    STJCell()
-                    
-                    SopoDevider()
-                    
-                    
-                    ForEach(0..<4) { _ in
-                        STJCutCell()
+                    ForEach(stjVM.response, id: \.boardId) { model in
+                        if model.boardId == 1 {
+                            STJCell(model: model)
+                        } else {
+                            STJCutCell(model: model)
+                        }
                         
                         SopoDevider()
                     }
+                    
+                    Spacer(minLength: 80)
                 }
                 .padding(.vertical, 12)
                 .padding(.horizontal, 28)

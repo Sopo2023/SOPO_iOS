@@ -5,18 +5,33 @@ class RootViewModel: ObservableObject {
     
     static let shared = RootViewModel()
     
+    @Published var path: [StackViewType] = .init()
+
+    
+    @Published var isAlert: Bool = false
+    @Published var alertContent: Alert = .init(title: Text("알림"))
+    
+    @Published var tabSelection: SopoTabItem = .home
+    
+    
+    let isDegug: Bool = false
+    
     var isSigned: Bool {
         
-        return KeyChain.read() != nil
+        return isDegug || KeyChain.read() != nil
+        
     }
     
     
     
-    @Published var tabSelection: SopoTabItem = .home
-    
-    @Published var signTab: SignType = .onboard
   
     
     
+    func openAlert(alert: @escaping () -> Alert) {
+        
+        alertContent = alert()
+        
+        isAlert = true
+    }
     
 }

@@ -57,6 +57,7 @@ class KeyChain {
     static func update(token: SigninResponse) -> Bool {
         
         guard let data = try? JSONEncoder().encode(token) else {
+            print("s")
             return false
         }
         

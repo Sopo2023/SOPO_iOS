@@ -1,13 +1,9 @@
 import SwiftUI
 import SDS
 
-struct STJCutCell: View {
-    
-    let model: STJResponse
-    
+struct CompetitionCutCell: View {
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
-            
+        HStack(spacing: 12) {
             Group {
                 if let url = URL(string: "") {
                     AsyncImage(url: url) { image in
@@ -32,22 +28,16 @@ struct STJCutCell: View {
             .clipShape(Rectangle())
             .frame(maxWidth: 96)
             .frame(height: 52)
-
             
-            VStack(alignment: .leading, spacing: 8) {
-                Text(model.boardTitle)
+            VStack(alignment: .leading, spacing: 12) {
+                Text("녕안녕안")
                     .font(.label(.bold))
                 
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("2024.08.01.")
-                    
-                    Text("\(model.boardLikeCount)개의 좋아요 · 4개의 댓글")
-                }
-                .font(.pretendard(.medium, size: 8))
-                .foregroundStyle(SopoColor.Pallete.Neutral.w60.color)
+                Text("디지털 신기술(AI, BC, Data, N/W, IoT, 기타)을 \n활용한 지역사회 및 산업 문제 해결 아이디어 기획 및 SW개발 공모")
+                    .font(.caption(.medium))
                 
-                HStack {
-                    Text("by \(model.memberName)")
+                HStack(spacing: 0) {
+                    Text("by 노영재")
                         .font(.caption(.bold))
                         .foregroundStyle(Color.label(.assitive))
                     
@@ -58,8 +48,9 @@ struct STJCutCell: View {
                     
                 }
             }
-            
-            
-        }
-    }
+        }    }
+}
+
+#Preview {
+    CompetitionCutCell()
 }

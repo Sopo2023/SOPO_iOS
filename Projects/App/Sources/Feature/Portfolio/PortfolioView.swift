@@ -29,12 +29,15 @@ struct PortfolioView: View {
                         
                         SopoDevider()
                     }
+                    
+                    Spacer(minLength: 80)
                 }
                 .padding(.horizontal, 28)
                 .padding(.vertical, 12)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 
             }
+            .scrollDismiss()
             
             
         }
